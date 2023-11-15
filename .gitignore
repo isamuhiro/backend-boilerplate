@@ -1,4 +1,4 @@
 .venv
 .mypy_cache
 htmlReport
-__pycache__
+__pycache__/
