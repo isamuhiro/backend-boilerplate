@@ -1,13 +1,13 @@
-import pytest
 from http import HTTPStatus
 from typing import Any, Dict, Generator
+
+import pytest
 from fastapi.testclient import TestClient
 
 from domain.entities.account import AccountCreate
 from infra.repositories.account import DatabaseAccountRepository
-
-
 from main import app
+
 client = TestClient(app)
 
 
@@ -88,6 +88,7 @@ def test_should_raise_invalid_cpf_when_creating_account() -> None:
 
     response = client.post("/accounts", json=account_create.model_dump())
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
+
 
 def test_when_driver_has_invalid_plate_raise_error() -> None:
     account_create = AccountCreate(name=NEW_DRIVER,

@@ -1,7 +1,7 @@
+from sqlalchemy import UUID, Boolean, Column, Integer, String
 from sqlalchemy.orm import declarative_base
-from sqlalchemy import Column, Integer, String, UUID, Boolean
+
 from domain.entities.account import Account
-from typing import TYPE_CHECKING
 
 Base = declarative_base()
 

@@ -1,17 +1,16 @@
-
-
-from os import access
 from typing import List
-
-import pytest
-from domain.entities.account import Account, AccountCreate
-from domain.exceptions.account import DuplicatedCPFException, DuplicatedEmailException, InvalidCarPlateException, InvalidCpfException
-from domain.repositories import account
-from domain.repositories.account import AccountRepository
 from uuid import uuid4
 
-from usecases.create_account import CreateAccount
+import pytest
+
+from domain.entities.account import Account, AccountCreate
+from domain.exceptions.account import (DuplicatedCPFException,
+                                       DuplicatedEmailException,
+                                       InvalidCarPlateException,
+                                       InvalidCpfException)
+from domain.repositories.account import AccountRepository
 from usecases.all_accounts import AllAccounts
+from usecases.create_account import CreateAccount
 
 DUPLICATED_CPF = "48011532081"
 VALID_CPF = "57685832038"
