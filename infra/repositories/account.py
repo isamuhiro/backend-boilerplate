@@ -14,13 +14,12 @@ class DatabaseAccountRepository(AccountRepository):
         return [account.to_account() for account in account_model_list]
 
     def create(self, account: AccountCreate) -> None:
-        account_model = AccountModel()
-        account_model.account_id = uuid.uuid4()
-        account_model.name = account.name
-        account_model.email = account.email
-        account_model.cpf = account.cpf
-        account_model.car_plate = account.car_plate
-        account_model.is_driver = account.is_driver
-        account_model.is_passenger = account.is_passenger
+        account_model = AccountModel(account_id=uuid.uuid4(),
+                                     name=account.name,
+                                     email=account.email,
+                                     cpf=account.cpf,
+                                     car_plate=account.car_plate,
+                                     is_driver=account.is_driver,
+                                     is_passenger=account.is_passenger)
         session.add(account_model)
         session.commit()

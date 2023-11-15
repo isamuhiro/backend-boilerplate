@@ -14,5 +14,9 @@ class InvalidCpfException(Exception):
     pass
 
 
+class DuplicatedCPFException(Exception):
+    pass
+
+
 class InvalidCarPlateException(Exception):
     pass

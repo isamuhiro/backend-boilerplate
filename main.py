@@ -3,7 +3,7 @@ from typing import Union, Any, List
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from domain.exceptions.account import (DuplicatedEmailException,
+from domain.exceptions.account import (DuplicatedCPFException, DuplicatedEmailException,
                                        InvalidCarPlateException,
                                        InvalidCpfException,
                                        InvalidEmailException)
@@ -92,6 +92,9 @@ async def create_account(account_create: AccountCreate) -> None:
     except DuplicatedEmailException:
         raise HTTPException(
             status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Email já cadastrado")
+    except DuplicatedCPFException:
+        raise HTTPException(
+            status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="CPF já cadastrado")
     except InvalidEmailException:
         raise HTTPException(
             status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Email inválido")
