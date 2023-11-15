@@ -1,5 +1,6 @@
 from typing import List
 import uuid
+
 from domain.entities.account import Account, AccountCreate
 
 from domain.repositories.account import AccountRepository
@@ -23,3 +24,15 @@ class DatabaseAccountRepository(AccountRepository):
                                      is_passenger=account.is_passenger)
         session.add(account_model)
         session.commit()
+
+    def delete_by_email(self, email: str) -> None:
+        existing_account = session.query(AccountModel).filter_by(email=email).first()
+        if not existing_account:
+            raise Exception("Account not found")
+        
+        session.delete(existing_account)
+        session.commit()
+        
+    def delete(self) -> None:
+        return None
+        

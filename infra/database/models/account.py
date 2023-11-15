@@ -1,4 +1,4 @@
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import declarative_base
 from sqlalchemy import Column, Integer, String, UUID, Boolean
 from domain.entities.account import Account
 from typing import TYPE_CHECKING
@@ -9,7 +9,6 @@ Base = declarative_base()
 class AccountModel(Base):  # type: ignore
     __tablename__ = 'account'
     __table_args__ = {'schema': 'cccat14'}
-
 
     account_id = Column(UUID, primary_key=True)
     name = Column(String, nullable=False)
@@ -31,4 +30,3 @@ class AccountModel(Base):  # type: ignore
             is_driver=bool(self.is_driver))
 
         return account
-

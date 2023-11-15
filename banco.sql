@@ -26,6 +26,8 @@ create table cccat14.ride (
 	date timestamp
 );
 
-insert into account (account_id, name, email, cpf, car_plate, is_passenger, is_driver) values ('e177e860-83b2-11ee-b962-0242ac120002', 'isamu', 'isamuhirahata@gmail.com', '03646768096', 'abc-1234',true, false);
+insert into account (account_id, name, email, cpf, car_plate, is_passenger, is_driver) values ('e177e860-83b2-11ee-b962-0242ac120002', 'johndoe', 'johndoe@gmail.com', '57685832038', 'abc1234',false, true);
 
 select * from account a;
+
+delete from account where account.email = 'johndoe@gmail.com'

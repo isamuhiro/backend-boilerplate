@@ -6,5 +6,6 @@
     ],
     "python.testing.unittestEnabled": false,
     "python.testing.pytestEnabled": true,
-    "editor.lightbulb.enabled": false
+    "editor.lightbulb.enabled": false,
+    "python.formatting.autopep8Args": ["--max-line-length=120"]
 }

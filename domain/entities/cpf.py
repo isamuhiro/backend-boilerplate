@@ -1,5 +1,6 @@
 import re
 
+
 def validate_cpf(cpf: str) -> bool:
     if not cpf:
         return False
@@ -29,13 +30,14 @@ def is_invalid_length(cpf: str) -> bool:
 def are_all_digits_same(cpf: str) -> bool:
     return all(c == cpf[0] for c in cpf)
 
+
 def calculate_digit(cpf: str, factor: int) -> int:
     total = 0
     for digit in cpf:
         if factor > 1:
             total += int(digit) * factor
             factor -= 1
-    rest = total%11
+    rest = total % 11
     return 0 if rest < 2 else 11 - rest
 
 

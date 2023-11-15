@@ -4,6 +4,7 @@ from typing import Optional
 
 from pydantic.config import ConfigDict
 
+
 class Account(BaseModel):
     id: str
     name: str
@@ -12,7 +13,7 @@ class Account(BaseModel):
     car_plate: Optional[str]
     is_passenger: bool
     is_driver: bool
-    
+
 
 class AccountCreate(BaseModel):
     name: str
@@ -21,5 +22,3 @@ class AccountCreate(BaseModel):
     car_plate: Optional[str]
     is_passenger: bool
     is_driver: bool
-    
-    

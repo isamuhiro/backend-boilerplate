@@ -2,3 +2,4 @@
 .mypy_cache
 htmlReport
 __pycache__/
+htmlcov
