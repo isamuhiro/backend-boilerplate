@@ -20,3 +20,11 @@ class DuplicatedCPFException(Exception):
 
 class InvalidCarPlateException(Exception):
     pass
+
+
+class InvalidPasswordException(Exception):
+    pass
+
+
+class AccountIsNotPassengerException(Exception):
+    pass

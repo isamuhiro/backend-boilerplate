@@ -6,13 +6,13 @@ from pydantic import BaseModel
 from domain.exceptions.account import (AccountNotFoundException, DuplicatedCPFException, DuplicatedEmailException,
                                        InvalidCarPlateException,
                                        InvalidCpfException,
-                                       InvalidEmailException)
+                                       InvalidEmailException, InvalidPasswordException)
 
 from domain.entities.account import Account, AccountCreate
 from infra.repositories.account import DatabaseAccountRepository
 from usecases import get_account
 from usecases.all_accounts import AllAccounts
-from usecases.create_account import CreateAccount
+from usecases.signup import Signup
 from usecases.get_account import GetAccount
 
 app = FastAPI()
@@ -47,7 +47,7 @@ async def find_account(email: str) -> Account:
 @app.post("/accounts")
 async def create_account(account_create: AccountCreate) -> None:
     try:
-        create_account = CreateAccount(DatabaseAccountRepository())
+        create_account = Signup(DatabaseAccountRepository())
         create_account.execute(account_create)
     except InvalidCpfException:
         raise HTTPException(
@@ -64,3 +64,6 @@ async def create_account(account_create: AccountCreate) -> None:
     except InvalidCarPlateException:
         raise HTTPException(
             status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Placa do carro inválida")
+    except InvalidPasswordException:
+        raise HTTPException(
+            status_code=HTTPStatus.UNPROCESSABLE_ENTITY, detail="Senha inválida")

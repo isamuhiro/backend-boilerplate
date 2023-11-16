@@ -3,16 +3,19 @@ from domain.entities.plate import clean_plate, is_plate_valid
 from domain.exceptions.account import (DuplicatedCPFException,
                                        DuplicatedEmailException,
                                        InvalidCarPlateException,
-                                       InvalidCpfException)
+                                       InvalidCpfException, InvalidPasswordException)
 from domain.repositories.account import AccountRepository
 from domain.entities.account import AccountCreate
 
 
-class CreateAccount:
+class Signup:
     def __init__(self, account_repository: AccountRepository) -> None:
         self.account_repository = account_repository
 
     def execute(self, account_create: AccountCreate) -> None:
+        
+        if not account_create.password:
+            raise InvalidPasswordException
         is_cpf_invalid = not validate_cpf(account_create.cpf)
 
         if is_cpf_invalid:

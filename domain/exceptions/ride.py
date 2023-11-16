@@ -1,0 +1,2 @@
+class InvalidRideStatusException(Exception):
+    pass

@@ -1,4 +1,4 @@
-from sqlalchemy import UUID, Boolean, Column, Integer, String
+from sqlalchemy import UUID, Boolean, Column, String
 from sqlalchemy.orm import declarative_base
 
 from domain.entities.account import Account

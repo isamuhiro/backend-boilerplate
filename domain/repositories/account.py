@@ -20,3 +20,7 @@ class AccountRepository(ABC):
     @abstractmethod
     def find(self, email: str) -> Optional[Account]:
         pass
+    
+    @abstractmethod
+    def find_by_id(self, id: str) -> Optional[Account]:
+        pass

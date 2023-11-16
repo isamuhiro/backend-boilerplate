@@ -10,7 +10,7 @@ from domain.exceptions.account import (DuplicatedCPFException,
                                        InvalidCpfException)
 from domain.repositories.account import AccountRepository
 from usecases.all_accounts import AllAccounts
-from usecases.create_account import CreateAccount
+from usecases.signup import Signup
 
 DUPLICATED_CPF = "48011532081"
 VALID_CPF = "57685832038"
@@ -81,7 +81,7 @@ def test_should_create_account(in_memory_accounts_repository: InMemoryAccountsRe
                                    is_passenger=True,
                                    is_driver=False,
                                    password="password")
-    create_account = CreateAccount(in_memory_accounts_repository)
+    create_account = Signup(in_memory_accounts_repository)
     create_account.execute(account_create)
 
     accounts = in_memory_accounts_repository.all()
@@ -97,7 +97,7 @@ def test_should_raise_duplicate_cpf_when_creating_account(in_memory_accounts_rep
                                    is_driver=False,
                                    password="password")
 
-    create_account = CreateAccount(in_memory_accounts_repository)
+    create_account = Signup(in_memory_accounts_repository)
     with pytest.raises(DuplicatedCPFException):
         create_account.execute(account_create)
 
@@ -111,7 +111,7 @@ def test_should_raise_duplicate_email_when_creating_account(in_memory_accounts_r
                                    is_driver=False,
                                    password="password")
 
-    create_account = CreateAccount(in_memory_accounts_repository)
+    create_account = Signup(in_memory_accounts_repository)
     with pytest.raises(DuplicatedEmailException):
         create_account.execute(account_create)
 
@@ -126,7 +126,7 @@ def test_should_raise_invalid_cpf_when_creating_account(cpf: str, in_memory_acco
                                    is_driver=False,
                                    password="password")
 
-    create_account = CreateAccount(in_memory_accounts_repository)
+    create_account = Signup(in_memory_accounts_repository)
     with pytest.raises(InvalidCpfException):
         create_account.execute(account_create)
 
@@ -141,7 +141,7 @@ def test_when_driver_has_invalid_plate_raise_error(plate: str, in_memory_account
                                    is_driver=True,
                                    password="password")
 
-    create_account = CreateAccount(in_memory_accounts_repository)
+    create_account = Signup(in_memory_accounts_repository)
     with pytest.raises(InvalidCarPlateException):
         create_account.execute(account_create)
 
@@ -155,7 +155,7 @@ def test_create_passenger_when_assert_plate_is_not_created(in_memory_accounts_re
                                    is_driver=False,
                                    password="password")
 
-    create_account = CreateAccount(in_memory_accounts_repository)
+    create_account = Signup(in_memory_accounts_repository)
     create_account.execute(account_create)
 
     existing_account = next(account for account in in_memory_accounts_repository.all()
@@ -172,7 +172,7 @@ def test_should_raise_when_create_driver_with_no_plate(in_memory_accounts_reposi
                                    is_passenger=False,
                                    is_driver=True,
                                    password="password")
-    create_account = CreateAccount(in_memory_accounts_repository)
+    create_account = Signup(in_memory_accounts_repository)
     with pytest.raises(InvalidCarPlateException) as exc:
         create_account.execute(account_create)
 
@@ -185,5 +185,5 @@ def test_should_create_driver(in_memory_accounts_repository: InMemoryAccountsRep
                                    is_passenger=False,
                                    is_driver=True,
                                    password="password")
-    create_account = CreateAccount(in_memory_accounts_repository)
+    create_account = Signup(in_memory_accounts_repository)
     create_account.execute(account_create)
