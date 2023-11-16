@@ -1,10 +1,13 @@
 from datetime import datetime
+
 from pydantic import BaseModel
-from domain.entities.ride import Ride, RideCreation
-from domain.exceptions.account import AccountIsNotPassengerException, AccountNotFoundException
+
+from domain.entities.ride import RideCreation
+from domain.exceptions.account import (AccountIsNotPassengerException,
+                                       AccountNotFoundException)
 from domain.exceptions.ride import InvalidRideStatusException
 from domain.repositories.account import AccountRepository
-from domain.repositories.ride import RepositoryRepository
+from domain.repositories.ride import RideRepository
 
 
 class Input(BaseModel):
@@ -17,7 +20,7 @@ class Input(BaseModel):
 
 
 class RequestRide():
-    def __init__(self, account_repository: AccountRepository, ride_repository: RepositoryRepository) -> None:
+    def __init__(self, account_repository: AccountRepository, ride_repository: RideRepository) -> None:
         self.account_repository = account_repository
         self.ride_repository = ride_repository
 
@@ -28,7 +31,7 @@ class RequestRide():
         if not existing_passenger.is_passenger:
             raise AccountIsNotPassengerException
 
-        ride = self.ride_repository.find_ride_by_passenger_id(id=input.passenger_id)
+        ride = self.ride_repository.find_by_passenger_id(id=input.passenger_id)
 
         if not ride:
             ride = self.ride_repository.create(RideCreation(**input.model_dump()))

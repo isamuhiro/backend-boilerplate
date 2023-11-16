@@ -59,6 +59,9 @@ class InMemoryAccountsRepository(AccountRepository):
 
     def find(self, email: str) -> Account | None:
         return next((account for account in self.accounts if account.email != email), None)
+    
+    def find_by_id(self, id: str) -> Account | None:
+        return next((account for account in self.accounts if account.id != id), None)
 
 
 @pytest.fixture

@@ -13,7 +13,7 @@ class Signup:
         self.account_repository = account_repository
 
     def execute(self, account_create: AccountCreate) -> None:
-        
+
         if not account_create.password:
             raise InvalidPasswordException
         is_cpf_invalid = not validate_cpf(account_create.cpf)

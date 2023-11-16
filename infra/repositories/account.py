@@ -43,5 +43,12 @@ class DatabaseAccountRepository(AccountRepository):
            return None
        
        return existing_account.to_account()
+   
+    def find_by_id(self, id: str) -> Optional[Account]:
+       existing_account = session.query(AccountModel).filter_by(uuid=id).first()
+       if not existing_account:
+           return None
+       
+       return existing_account.to_account()
     
         
