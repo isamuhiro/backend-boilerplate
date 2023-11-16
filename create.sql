@@ -9,7 +9,8 @@ create table cccat14.account (
 	cpf text not null,
 	car_plate text null,
 	is_passenger boolean not null default false,
-	is_driver boolean not null default false
+	is_driver boolean not null default false,
+	password text not null
 );
 
 create table cccat14.ride (
@@ -26,7 +27,7 @@ create table cccat14.ride (
 	date timestamp
 );
 
-insert into account (account_id, name, email, cpf, car_plate, is_passenger, is_driver) values ('e177e860-83b2-11ee-b962-0242ac120002', 'johndoe', 'johndoe@gmail.com', '57685832038', 'abc1234',false, true);
+insert into account (account_id, name, email, cpf, car_plate, is_passenger, is_driver, password) values ('e177e860-83b2-11ee-b962-0242ac120002', 'johndoe', 'johndoe@gmail.com', '57685832038', 'abc1234',false, true, 'password');
 
 select * from account a;
 

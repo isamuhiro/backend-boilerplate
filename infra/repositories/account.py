@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 import uuid
 
 from domain.entities.account import Account, AccountCreate
@@ -21,7 +21,8 @@ class DatabaseAccountRepository(AccountRepository):
                                      cpf=account.cpf,
                                      car_plate=account.car_plate,
                                      is_driver=account.is_driver,
-                                     is_passenger=account.is_passenger)
+                                     is_passenger=account.is_passenger,
+                                     password=account.password)
         session.add(account_model)
         session.commit()
 
@@ -35,4 +36,12 @@ class DatabaseAccountRepository(AccountRepository):
         
     def delete(self) -> None:
         return None
+    
+    def find(self, email: str) -> Optional[Account]:
+       existing_account = session.query(AccountModel).filter_by(email=email).first()
+       if not existing_account:
+           return None
+       
+       return existing_account.to_account()
+    
         

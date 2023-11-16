@@ -3,15 +3,17 @@ from typing import List
 
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from domain.exceptions.account import (DuplicatedCPFException, DuplicatedEmailException,
+from domain.exceptions.account import (AccountNotFoundException, DuplicatedCPFException, DuplicatedEmailException,
                                        InvalidCarPlateException,
                                        InvalidCpfException,
                                        InvalidEmailException)
 
 from domain.entities.account import Account, AccountCreate
 from infra.repositories.account import DatabaseAccountRepository
+from usecases import get_account
 from usecases.all_accounts import AllAccounts
 from usecases.create_account import CreateAccount
+from usecases.get_account import GetAccount
 
 app = FastAPI()
 
@@ -29,6 +31,17 @@ async def root() -> dict[str, bool]:
 async def accounts() -> List[Account]:
     get_accounts = AllAccounts(DatabaseAccountRepository())
     return get_accounts.execute()
+
+
+@app.get("/account/{email}")
+async def find_account(email: str) -> Account:
+    try:
+
+        get_account = GetAccount(DatabaseAccountRepository())
+        result = get_account.execute(email=email)
+        return result
+    except AccountNotFoundException:
+        raise HTTPException(status_code=HTTPStatus.NOT_FOUND, detail="Conta não encontrada")
 
 
 @app.post("/accounts")

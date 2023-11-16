@@ -18,6 +18,7 @@ class AccountModel(Base):  # type: ignore
     car_plate = Column(String, nullable=True)
     is_passenger = Column(Boolean, nullable=True)
     is_driver = Column(Boolean, nullable=True)
+    password = Column(String, nullable=True)
 
     def to_account(self) -> Account:
         account = Account(
@@ -27,6 +28,7 @@ class AccountModel(Base):  # type: ignore
             email=str(self.email),
             car_plate=str(self.car_plate),
             is_passenger=bool(self.is_passenger),
-            is_driver=bool(self.is_driver))
+            is_driver=bool(self.is_driver),
+            password=str(self.password))
 
         return account

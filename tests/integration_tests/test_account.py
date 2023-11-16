@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 from uuid import uuid4
 
 import pytest
@@ -29,14 +29,16 @@ class InMemoryAccountsRepository(AccountRepository):
                                  email="johndoe@gmail.com",
                                  car_plate="aaa1234",
                                  is_passenger=False,
-                                 is_driver=True),
+                                 is_driver=True,
+                                 password="password"),
                          Account(id=str(uuid4()),
                                  name="mariedoe",
                                  cpf="48011532081",
                                  email="mariedoe@gmail.com",
                                  car_plate=None,
                                  is_passenger=True,
-                                 is_driver=False)]
+                                 is_driver=False, 
+                                 password="password")]
 
     def all(self) -> List[Account]:
         return self.accounts
@@ -48,11 +50,15 @@ class InMemoryAccountsRepository(AccountRepository):
                                   cpf=account.cpf,
                                   car_plate=account.car_plate,
                                   is_driver=account.is_driver,
-                                  is_passenger=account.is_passenger)
+                                  is_passenger=account.is_passenger,
+                                  password="password")
         self.accounts.append(created_account)
 
     def delete_by_email(self, email: str) -> None:
         self.accounts = [account for account in self.accounts if account.email != email]
+
+    def find(self, email: str) -> Account | None:
+        return next((account for account in self.accounts if account.email != email), None)
 
 
 @pytest.fixture
@@ -73,7 +79,8 @@ def test_should_create_account(in_memory_accounts_repository: InMemoryAccountsRe
                                    email=VALID_EMAIL,
                                    car_plate=None,
                                    is_passenger=True,
-                                   is_driver=False)
+                                   is_driver=False,
+                                   password="password")
     create_account = CreateAccount(in_memory_accounts_repository)
     create_account.execute(account_create)
 
@@ -87,7 +94,8 @@ def test_should_raise_duplicate_cpf_when_creating_account(in_memory_accounts_rep
                                    email="mariedoe@gmail.com",
                                    car_plate=None,
                                    is_passenger=True,
-                                   is_driver=False)
+                                   is_driver=False,
+                                   password="password")
 
     create_account = CreateAccount(in_memory_accounts_repository)
     with pytest.raises(DuplicatedCPFException):
@@ -100,7 +108,8 @@ def test_should_raise_duplicate_email_when_creating_account(in_memory_accounts_r
                                    email=DUPLICATED_EMAIL,
                                    car_plate=None,
                                    is_passenger=True,
-                                   is_driver=False)
+                                   is_driver=False,
+                                   password="password")
 
     create_account = CreateAccount(in_memory_accounts_repository)
     with pytest.raises(DuplicatedEmailException):
@@ -114,7 +123,8 @@ def test_should_raise_invalid_cpf_when_creating_account(cpf: str, in_memory_acco
                                    email=VALID_EMAIL,
                                    car_plate=None,
                                    is_passenger=True,
-                                   is_driver=False)
+                                   is_driver=False,
+                                   password="password")
 
     create_account = CreateAccount(in_memory_accounts_repository)
     with pytest.raises(InvalidCpfException):
@@ -128,7 +138,8 @@ def test_when_driver_has_invalid_plate_raise_error(plate: str, in_memory_account
                                    email=VALID_EMAIL,
                                    car_plate=plate,
                                    is_passenger=False,
-                                   is_driver=True)
+                                   is_driver=True,
+                                   password="password")
 
     create_account = CreateAccount(in_memory_accounts_repository)
     with pytest.raises(InvalidCarPlateException):
@@ -141,7 +152,8 @@ def test_create_passenger_when_assert_plate_is_not_created(in_memory_accounts_re
                                    email=VALID_EMAIL,
                                    car_plate=VALID_PLATE,
                                    is_passenger=True,
-                                   is_driver=False)
+                                   is_driver=False,
+                                   password="password")
 
     create_account = CreateAccount(in_memory_accounts_repository)
     create_account.execute(account_create)
@@ -158,7 +170,8 @@ def test_should_raise_when_create_driver_with_no_plate(in_memory_accounts_reposi
                                    email=VALID_EMAIL,
                                    car_plate=None,
                                    is_passenger=False,
-                                   is_driver=True)
+                                   is_driver=True,
+                                   password="password")
     create_account = CreateAccount(in_memory_accounts_repository)
     with pytest.raises(InvalidCarPlateException) as exc:
         create_account.execute(account_create)
@@ -170,6 +183,7 @@ def test_should_create_driver(in_memory_accounts_repository: InMemoryAccountsRep
                                    email=VALID_EMAIL,
                                    car_plate=VALID_PLATE,
                                    is_passenger=False,
-                                   is_driver=True)
+                                   is_driver=True,
+                                   password="password")
     create_account = CreateAccount(in_memory_accounts_repository)
     create_account.execute(account_create)

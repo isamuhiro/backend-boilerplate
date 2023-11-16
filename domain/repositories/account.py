@@ -16,3 +16,7 @@ class AccountRepository(ABC):
     @abstractmethod
     def delete_by_email(self, email: str) -> None:
         pass
+    
+    @abstractmethod
+    def find(self, email: str) -> Optional[Account]:
+        pass

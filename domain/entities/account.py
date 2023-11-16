@@ -2,8 +2,6 @@ from typing_extensions import Unpack
 from pydantic import BaseModel
 from typing import Optional
 
-from pydantic.config import ConfigDict
-
 
 class Account(BaseModel):
     id: str
@@ -13,6 +11,7 @@ class Account(BaseModel):
     car_plate: Optional[str]
     is_passenger: bool
     is_driver: bool
+    password: str
 
 
 class AccountCreate(BaseModel):
@@ -22,3 +21,4 @@ class AccountCreate(BaseModel):
     car_plate: Optional[str]
     is_passenger: bool
     is_driver: bool
+    password: str

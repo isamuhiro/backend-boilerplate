@@ -34,7 +34,9 @@ def new_driver() -> Generator[Any, Any, Any]:
         "cpf": NEW_CPF_DRIVER,
         "car_plate": NEW_PLATE,
         "is_driver": True,
-        "is_passenger": False
+        "is_passenger": False,
+        "password": "password",
+        
     }
 
     yield driver
@@ -60,7 +62,8 @@ def test_should_raise_duplicate_cpf_when_creating_account() -> None:
                                    email=NEW_EMAIL_DRIVER,
                                    car_plate=NEW_PLATE,
                                    is_passenger=False,
-                                   is_driver=True)
+                                   is_driver=True,
+                                   password="password")
 
     response = client.post("/accounts", json=account_create.model_dump())
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
@@ -72,7 +75,8 @@ def test_should_raise_duplicate_email_when_creating_account() -> None:
                                    email=EXISTING_EMAIL,
                                    car_plate=None,
                                    is_passenger=False,
-                                   is_driver=True)
+                                   is_driver=True,
+                                   password="password")
 
     response = client.post("/accounts", json=account_create.model_dump())
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
@@ -84,7 +88,8 @@ def test_should_raise_invalid_cpf_when_creating_account() -> None:
                                    email=NEW_EMAIL_DRIVER,
                                    car_plate=None,
                                    is_passenger=False,
-                                   is_driver=True)
+                                   is_driver=True,
+                                   password="password")
 
     response = client.post("/accounts", json=account_create.model_dump())
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
@@ -96,7 +101,8 @@ def test_when_driver_has_invalid_plate_raise_error() -> None:
                                    email=NEW_EMAIL_DRIVER,
                                    car_plate=INVALID_PLATE_LIST[0],
                                    is_passenger=False,
-                                   is_driver=True)
+                                   is_driver=True,
+                                   password="password")
 
     response = client.post("/accounts", json=account_create.model_dump())
     assert response.status_code == HTTPStatus.UNPROCESSABLE_ENTITY
